@@ -80,7 +80,7 @@ int main()
 	int size = (p[sizeof(p)/sizeof(double)-1] + p[sizeof(p)/sizeof(double)-2])/arrayTime; //length of final array: length of track / arrayTime
 	atTime g[size];
     
-    string f = "\nconst long p[" + to_string(size) + "][2] = {";
+    string f = "\nconst int p[" + to_string(size+1) + "][2] = {";
 	int ppos = mp[1];
 	int pppos = mp[1];
 	string uf;
@@ -100,11 +100,10 @@ int main()
 			if (t*arrayTime >= p[i] && t*arrayTime < p[i+1] + p[i]) uff[(halfNotes(ppos, p[i-1])/2)+1] = '1';
 			// Is true if at time t p[i-1] is held down at time t
 		}
-		uf += to_string(stoi(uff, 0, 2)) + '}';
-		if (t < size-1) uf += ", ";
+		uf += to_string(stoi(uff, 0, 2)) + "}, ";
 		f += uf;
 	}
-	f += "};\nconst int arrSize = " + to_string(size) + ";\nconst double arrayTime = " + to_string(arrayTime) + ";\n\n";
+	f += "{0, 256}};\nconst int arrSize = " + to_string(size+1) + ";\nconst double arrayTime = " + to_string(arrayTime) + ";\n\n";
 	editFile(f);
 	//cout << f;
 }
