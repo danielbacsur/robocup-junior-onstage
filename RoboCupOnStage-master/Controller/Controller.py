@@ -1,5 +1,5 @@
 import time, serial, struct
-from obswebsocket import obsws, requests
+#from obswebsocket import obsws, requests
 
 SERVER_HOST = "localhost"
 SERVER_PORT = 4444
@@ -27,9 +27,9 @@ class Controller:
 
     def connect(self):
         print('CONNECT')
-        self.server = obsws(SERVER_HOST, SERVER_PORT, SERVER_PASS)
-        self.server.connect()
-        self.server.call(requests.SetCurrentScene('StartScene'))
+        #self.server = obsws(SERVER_HOST, SERVER_PORT, SERVER_PASS)
+        #self.server.connect()
+        #self.server.call(requests.SetCurrentScene('StartScene'))
         with open(TEXTFILE_NAME, 'w') as text_file:
             text_file.write(TITLES[0])
         for i in range(1, 10):
@@ -53,7 +53,7 @@ class Controller:
         
     def disconnect(self):
         print('DISCONNECT')
-        self.server.disconnect()
+        #self.server.disconnect()
         for connection in self.connections.values():
             if not connection == 0:
                 connection.close()
@@ -62,13 +62,14 @@ class Controller:
         
     def cancel(self):
         print('CANCEL')
-        self.server.call(requests.SetCurrentScene('CancelScene'))
+        #self.server.call(requests.SetCurrentScene('CancelScene'))
         self.write('X', 'B'.encode())
 
 
         
     def stop(self):
-        self.server.call(requests.SetCurrentScene('StopScene'))
+        #self.server.call(requests.SetCurrentScene('StopScene'))
+        pass
 
     
 
@@ -76,7 +77,7 @@ class Controller:
         print('START')
         for i in range(1, 5):
             print(f'Counting {5-i}')
-            self.server.call(requests.SetCurrentScene(NUMBERS[i-1]))
+            #self.server.call(requests.SetCurrentScene(NUMBERS[i-1]))
             time.sleep(DELAY_TIME*2)
         self.write('X', 'A'.encode())
         self.start_time = time.time()
@@ -93,7 +94,7 @@ class Controller:
         scene_index = int((time.time() - start_time) % 16 / 2)
         scene = SCENES[scene_index]
         print(scene)
-        self.server.call(requests.SetCurrentScene(scene))
+        #self.server.call(requests.SetCurrentScene(scene))
         if scene_index == 4 and title != TITLES[-1]:
             with open(TEXTFILE_NAME, 'w') as text_file:
                 text_file.write(TITLES[title_index + 1])
